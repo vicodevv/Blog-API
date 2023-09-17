@@ -1,13 +1,16 @@
 import fastify from 'fastify'
 import routes from './router'
 import dotenv from 'dotenv';
+import { userSchemas } from './schema/user.schema';
 
-dotenv.config();
 const server = fastify()
+dotenv.config();
 
-server.get('/healthcheck', async (request, reply) => {
-  return { status: 'ok' }
-})
+async function main(){
+  
+  for(const schema of userSchemas){
+    server.addSchema(schema)
+  }
 
 server.register(routes)
 
@@ -18,3 +21,6 @@ server.listen({ port: 8080 }, (err, address) => {
   }
   console.log(`Server listening at ${address}`)
 })
+}
+
+main()
