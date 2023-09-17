@@ -1,6 +1,6 @@
 # Blog-API
 
-This API allows you to create blog posts and share them with other users. You can also view posts created by other users. You can also like and comment on posts. You can also follow other users and view
+This API allows you to create blog posts, update blog posts, delete blog posts and get all blog posts.
 
 ## Technologies
 
@@ -73,17 +73,16 @@ To run this project, you will need to add the following environment variables to
 
 - PORT=your port number
 - DATABASE_URL=your database url
-- JWT_SECRET=your jwt secret
 
 ## API Reference
 
-| Method | Description       | Endpoints  |
-| ------ | ----------------- | ---------- |
-| GET    | Get all posts     | /posts     |
-| GET    | Get a single post | /posts/:id |
-| POST   | Create a post     | /posts     |
-| PUT    | Update a post     | /posts/:id |
-| DELETE | Delete a post     | /posts/:id |
+| Method | Description       | Endpoints   |
+| ------ | ----------------- | ----------- |
+| GET    | Get all posts     | /all        |
+| GET    | Get a single post | /:id        |
+| POST   | Create a post     | /create     |
+| PUT    | Update a post     | /update/:id |
+| DELETE | Delete a post     | /delete/:id |
 
 ## Authors
 
