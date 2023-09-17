@@ -12,6 +12,7 @@
   "dependencies": {
     "@prisma/client": "^5.3.1",
     "@types/node": "^20.6.2",
+    "dotenv": "^16.3.1",
     "fastify": "^4.23.2",
     "fastify-jwt": "^4.2.0",
     "fastify-swagger": "^5.2.0",
@@ -20,5 +21,8 @@
     "typescript": "^5.2.2",
     "zod": "^3.22.2",
     "zod-to-json-schema": "^3.21.4"
+  },
+  "devDependencies": {
+    "prisma": "^5.3.1"
   }
 }
