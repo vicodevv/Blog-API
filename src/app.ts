@@ -1,14 +1,14 @@
 import fastify from 'fastify'
 import routes from './router'
 import dotenv from 'dotenv';
-import { userSchemas } from './schema/user.schema';
+import { blogSchemas } from './schema/blog.schema';
 
 const server = fastify()
 dotenv.config();
 
 async function main(){
   
-  for(const schema of userSchemas){
+  for(const schema of blogSchemas){
     server.addSchema(schema)
   }
 
