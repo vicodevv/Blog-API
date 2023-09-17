@@ -19,7 +19,7 @@ Pre-requisites
 
 - Node(LTS version)
 - NPM v9.0.0 or higher
-- MongoDB
+- PostgreSQL
 
 You can get the latest version of NodeJS from [here](https://nodejs.org/en/download/) or you can check the version you have installed on your machine by running the following command in your terminal
 
@@ -31,6 +31,12 @@ You can get the latest version of NPM from [here](https://www.npmjs.com/get-npm)
 
 ```bash
   npm -v
+```
+
+You can get the latest version of PostgreSQL from [here](https://www.postgresql.org/download/) or you can check the version you have installed on your machine by running the following command in your terminal
+
+```bash
+  psql -V
 ```
 
 ## Installation
