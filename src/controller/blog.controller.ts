@@ -8,9 +8,11 @@ import {
   deleteBlog 
 } from "../service/blog.service";
 
-/**
- * BlogController is responsible for handling blog-related operations.
- */
+interface PaginationQuery {
+  page?: string;
+  perPage?: string;
+}
+
 export const BlogController = {
   /**
    * Create a new blog post.
@@ -28,19 +30,25 @@ export const BlogController = {
   },
 
   /**
-   * Retrieve a list of all blog posts.
+   * Retrieve a list of all blog posts with pagination information.
    * @param request - Fastify request object.
    * @param reply - Fastify reply object.
-   * @returns - List of all blog posts.
+   * @returns - List of all blog posts with pagination information.
    */
-  getAllBlogs: async (request: FastifyRequest, reply: FastifyReply) => {
+  getAllBlogs: async (request: FastifyRequest<{ Querystring: PaginationQuery }>, reply: FastifyReply) => {
     try {
-      const blogs = await getAllBlogs();
-      return reply.send(blogs);
+      // Safely access query parameters and provide default values
+      const page = parseInt(request.query.page as string ?? '1');
+      const perPage = parseInt(request.query.perPage as string ?? '10');
+
+      const { blogs, total } = await getAllBlogs(page, perPage);
+
+      return reply.send({ blogs, total, page, perPage });
     } catch (error) {
       reply.status(500).send({ error: "Internal Server Error" });
     }
   },
+
 
   /**
    * Retrieve a blog post by its ID.
@@ -48,15 +56,18 @@ export const BlogController = {
    * @param reply - Fastify reply object.
    * @returns - Blog post with the specified ID.
    */
-  getBlogById: async (request: FastifyRequest<{ Params: { id: number } }>, reply: FastifyReply) => {
+  getBlogById: async (request: FastifyRequest<{ Params: { id: Number } }>, reply: FastifyReply) => {
     try {
       const { id } = request.params;
       const blog = await getBlogById(id);
+  
       if (!blog) {
         return reply.status(404).send({ error: "Blog not found" });
       }
+  
       return reply.send(blog);
     } catch (error) {
+      console.error("Error in getBlogById controller:", error);
       reply.status(500).send({ error: "Internal Server Error" });
     }
   },
@@ -67,7 +78,7 @@ export const BlogController = {
    * @param reply - Fastify reply object.
    * @returns - Updated blog post with the specified ID.
    */
-  updateBlog: async (request: FastifyRequest<{ Body: CreateBlogInput; Params: { id: number } }>, reply: FastifyReply) => {
+  updateBlog: async (request: FastifyRequest<{ Body: CreateBlogInput; Params: { id: Number } }>, reply: FastifyReply) => {
     try {
       const { id } = request.params;
       const blog = await updateBlog(id, { ...request.body });
@@ -86,7 +97,7 @@ export const BlogController = {
    * @param reply - Fastify reply object.
    * @returns - Success message upon successful deletion.
    */
-  deleteBlog: async (request: FastifyRequest<{ Params: { id: number } }>, reply: FastifyReply) => {
+  deleteBlog: async (request: FastifyRequest<{ Params: { id: Number } }>, reply: FastifyReply) => {
     try {
       const { id } = request.params;
       const blog = await deleteBlog(id);
