@@ -67,7 +67,7 @@ Run the code
 
 ## Entity Relationship Diagram
 
-<img src="https://user-images.githubusercontent.com/55485439/236048256-26eadb25-8e5b-4559-9b36-c013f64f3850.png" width=800>
+<img src="https://github.com/vicodevv/Blog-API/assets/55485439/4146f7aa-be87-4ba5-84d9-bd655cc45260" width=800>
 
 ## Postman Documentation
 
