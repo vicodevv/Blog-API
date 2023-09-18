@@ -25,7 +25,8 @@ export const BlogController = {
       const blog = await createBlog({ ...request.body });
       return reply.status(201).send(blog);
     } catch (error) {
-      reply.status(500).send({ error: "Internal Server Error" });
+      console.error("Error in createBlog controller:", error);
+      reply.status(500).send({ error: "Internal Server Error. Failed to create a blog post." });
     }
   },
 
@@ -45,7 +46,8 @@ export const BlogController = {
 
       return reply.send({ blogs, total, page, perPage });
     } catch (error) {
-      reply.status(500).send({ error: "Internal Server Error" });
+      console.error("Error in getAllBlogs controller:", error);
+      reply.status(500).send({ error: "Internal Server Error. Failed to retrieve blog posts." });
     }
   },
 
@@ -87,7 +89,8 @@ export const BlogController = {
       }
       return reply.send(blog);
     } catch (error) {
-      reply.status(500).send({ error: "Internal Server Error" });
+      console.error("Error in updateBlog controller:", error);
+      reply.status(500).send({ error: "Internal Server Error. Failed to update the blog post." });
     }
   },
 
@@ -106,7 +109,8 @@ export const BlogController = {
       }
       return reply.send({ message: "Blog deleted successfully" });
     } catch (error) {
-      reply.status(500).send({ error: "Internal Server Error" });
+      console.error("Error in deleteBlog controller:", error);
+      reply.status(500).send({ error: "Internal Server Error. Failed to delete the blog post." });
     }
   },
 };
