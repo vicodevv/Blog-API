@@ -4,7 +4,7 @@ import { buildJsonSchemas } from "fastify-zod";
 /**
  * Schema for creating a new blog post.
  */
-const createBlogSchema = z.object({
+export const createBlogSchema = z.object({
   title: z.string({
     required_error: "Title is required",
     invalid_type_error: "Title must be a string",

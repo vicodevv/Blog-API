@@ -7,6 +7,7 @@ import {
   updateBlog, 
   deleteBlog 
 } from "../service/blog.service";
+import { createBlogSchema } from "../schema/blog.schema";
 
 interface PaginationQuery {
   page?: string;
@@ -22,8 +23,23 @@ export const BlogController = {
    */
   createBlog: async (request: FastifyRequest<{ Body: CreateBlogInput }>, reply: FastifyReply) => {
     try {
-      const blog = await createBlog({ ...request.body });
-      return reply.status(201).send(blog);
+      // Validate the request body against the schema
+      const validationResult = createBlogSchema.safeParse(request.body);
+
+      if (validationResult.success) {
+        // If validation succeeds, proceed with creating the blog post
+        const blog = await createBlog({ ...request.body });
+        if (!blog) {
+          return reply.status(400).send({ error: "Bad Request. Failed to create a blog post." });
+        }
+        return reply.status(201).send(blog);
+      } else {
+        // If validation fails, return a 400 Bad Request response with validation errors
+        return reply.status(400).send({
+          error: "Bad Request. Invalid input data.",
+          validationErrors: validationResult.error,
+        });
+      }
     } catch (error) {
       console.error("Error in createBlog controller:", error);
       reply.status(500).send({ error: "Internal Server Error. Failed to create a blog post." });
@@ -58,7 +74,7 @@ export const BlogController = {
    * @param reply - Fastify reply object.
    * @returns - Blog post with the specified ID.
    */
-  getBlogById: async (request: FastifyRequest<{ Params: { id: Number } }>, reply: FastifyReply) => {
+  getBlogById: async (request: FastifyRequest<{ Params: { id: number } }>, reply: FastifyReply) => {
     try {
       const { id } = request.params;
       const blog = await getBlogById(id);
@@ -80,14 +96,24 @@ export const BlogController = {
    * @param reply - Fastify reply object.
    * @returns - Updated blog post with the specified ID.
    */
-  updateBlog: async (request: FastifyRequest<{ Body: CreateBlogInput; Params: { id: Number } }>, reply: FastifyReply) => {
+
+  updateBlog: async (request: FastifyRequest<{ Body: CreateBlogInput; Params: { id: number } }>, reply: FastifyReply) => {
     try {
       const { id } = request.params;
-      const blog = await updateBlog(id, { ...request.body });
-      if (!blog) {
-        return reply.status(404).send({ error: "Blog not found" });
+      const validationResult = createBlogSchema.safeParse(request.body);
+
+      if (validationResult.success) {
+        const blog = await updateBlog(id, { ...request.body });
+        if (!blog) {
+          return reply.status(404).send({ error: "Blog not found" }); // Return a 404 status code
+        }
+        return reply.send(blog);
+      } else {
+        return reply.status(400).send({
+          error: "Bad Request. Invalid input data.",
+          validationErrors: validationResult.error,
+        });
       }
-      return reply.send(blog);
     } catch (error) {
       console.error("Error in updateBlog controller:", error);
       reply.status(500).send({ error: "Internal Server Error. Failed to update the blog post." });
@@ -100,12 +126,12 @@ export const BlogController = {
    * @param reply - Fastify reply object.
    * @returns - Success message upon successful deletion.
    */
-  deleteBlog: async (request: FastifyRequest<{ Params: { id: Number } }>, reply: FastifyReply) => {
+  deleteBlog: async (request: FastifyRequest<{ Params: { id: number } }>, reply: FastifyReply) => {
     try {
       const { id } = request.params;
       const blog = await deleteBlog(id);
       if (!blog) {
-        return reply.status(404).send({ error: "Blog not found" });
+        return reply.status(404).send({ error: "Blog not found" }); // Return a 404 status code
       }
       return reply.send({ message: "Blog deleted successfully" });
     } catch (error) {

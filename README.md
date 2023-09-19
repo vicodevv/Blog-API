@@ -1,6 +1,6 @@
 # Blog-API
 
-This API allows you to create blog posts, update blog posts, delete blog posts and get all blog posts.
+This API allows you to create blog posts, update blog posts, delete blog posts and get all blog posts. It also includes a pagination feature that allows you to get a specific number of posts per page.
 
 ## Technologies
 
@@ -65,7 +65,7 @@ Run the code
   npm run dev
 ```
 
-## Entity Relationship Diagram
+## Class Diagram
 
 <img src="https://github.com/vicodevv/Blog-API/assets/55485439/4146f7aa-be87-4ba5-84d9-bd655cc45260" width=800>
 
@@ -79,18 +79,17 @@ https://documenter.getpostman.com/view/17026180/2s9YC7UC7K
 
 To run this project, you will need to add the following environment variables to your .env file
 
-- PORT=your port number
 - DATABASE_URL=your database url
 
 ## API Reference
 
-| Method | Description       | Endpoints   |
-| ------ | ----------------- | ----------- |
-| GET    | Get all posts     | /all        |
-| GET    | Get a single post | /:id        |
-| POST   | Create a post     | /create     |
-| PUT    | Update a post     | /update/:id |
-| DELETE | Delete a post     | /delete/:id |
+| Method | Description            | Endpoints   |
+| ------ | ---------------------- | ----------- |
+| GET    | Get all blog posts     | /all        |
+| GET    | Get a single blog post | /:id        |
+| POST   | Create a blog post     | /create     |
+| PUT    | Update a blog post     | /update/:id |
+| DELETE | Delete a blog post     | /delete/:id |
 
 ## Authors
 

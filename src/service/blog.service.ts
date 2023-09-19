@@ -53,14 +53,22 @@ export async function getBlogById(id: Number) {
  * @param input - Updated data for the blog post.
  * @returns - Updated blog post with the specified ID.
  */
-export async function updateBlog(id: Number, input: CreateBlogInput) {
-  const blog = await prisma.blog.update({
-    where: {
-      id: Number(id),
-    },
-    data: input,
-  });
-  return blog;
+export async function updateBlog(id: number, input: CreateBlogInput) {
+  try {
+    const blog = await prisma.blog.update({
+      where: {
+        id: Number(id),
+      },
+      data: input,
+    });
+    return blog;
+  } catch (error: any) {
+    if (error.code === 'P2025') {
+      // The error code 'P2025' indicates that the resource was not found
+      return null;
+    }
+    throw error;
+  }
 }
 
 /**
@@ -68,11 +76,19 @@ export async function updateBlog(id: Number, input: CreateBlogInput) {
  * @param id - ID of the blog post to delete.
  * @returns - Deleted blog post with the specified ID.
  */
-export async function deleteBlog(id: Number) {
-  const blog = await prisma.blog.delete({
-    where: {
-      id: Number(id),
-    },
-  });
-  return blog;
+export async function deleteBlog(id: number) {
+  try {
+    const blog = await prisma.blog.delete({
+      where: {
+        id: Number(id),
+      },
+    });
+    return blog;
+  } catch (error: any) {
+    if (error.code === 'P2025') {
+      // The error code 'P2025' indicates that the resource was not found
+      return null;
+    }
+    throw error;
+  }
 }
