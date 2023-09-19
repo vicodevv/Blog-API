@@ -65,6 +65,14 @@ Run the code
   npm run dev
 ```
 
+## Running Tests
+
+To run tests, run the following command
+
+```bash
+  npm run test
+```
+
 ## Class Diagram
 
 <img src="https://github.com/vicodevv/Blog-API/assets/55485439/4146f7aa-be87-4ba5-84d9-bd655cc45260" width=800>
